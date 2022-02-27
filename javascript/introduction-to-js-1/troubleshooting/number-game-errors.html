@@ -41,13 +41,15 @@
 </body>
 
 <script>
-  let randomNumber = Math.floor(Math.random()) + 1;
-
   const guesses = document.querySelector('.guesses');
   const lastResult = document.querySelector('.lastResult');
-  const lowOrHi = document.querySelector('lowOrHi');
+  const lowOrHi = document.querySelector('.lowOrHi');
   const guessSubmit = document.querySelector('.guessSubmit');
   const guessField = document.querySelector('.guessField');
+  const minGuess = 1;
+  const maxGuess = 100;
+
+  let randomNumber = getRandomRangedInt(minGuess, maxGuess);
 
   let guessCount = 1;
   let resetButton;
@@ -66,7 +68,7 @@
       lowOrHi.textContent = '';
       setGameOver();
     } else if(guessCount === 10) {
-      lastResult.textContent = '!!!GAME OVER!!!';
+      lastResult.textContent = `!!!GAME OVER!!! IT WAS ${randomNumber}!!!`;
       setGameOver();
     } else {
       lastResult.textContent = 'Wrong!';
@@ -82,7 +84,7 @@
     guessField.value = '';
     guessField.focus();
   }
-  guessSubmit.addeventListener('click', checkGuess);
+  guessSubmit.addEventListener('click', checkGuess);
 
   function setGameOver() {
 	  guessField.disabled = true;
@@ -90,7 +92,12 @@
 	  resetButton = document.createElement('button');
 	  resetButton.textContent = 'Start new game';
 	  document.body.appendChild(resetButton);
-	  resetButton.addeventListener('click', resetGame);
+	  resetButton.addEventListener('click', resetGame);
+  }
+
+  function getRandomRangedInt(min, max) {
+    let range = max - min;
+    return min + Math.floor(Math.random() * range);
   }
 
   function resetGame() {
@@ -109,7 +116,7 @@
 
 	  lastResult.style.backgroundColor = 'white';
 
-	  randomNumber = Math.floor(Math.random()) + 1;
+	  randomNumber = getRandomRangedInt(minGuess, maxGuess);
   }
 </script>
 </html>
